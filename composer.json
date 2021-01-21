@@ -1,0 +1,17 @@
+{
+    "name": "anguis/task-list",
+    "type": "project",
+    "license": "MIT'",
+    "authors": [
+        {
+            "name": "Rafał Bieroński",
+            "email": "bieronski@yahoo.pl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Anguis\\TaskList\\": "src/"
+        }
+    },
+    "require": {}
+}
