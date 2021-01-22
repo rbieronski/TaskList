@@ -7,4 +7,6 @@ use Anguis\TaskList\Entity\TaskEntity;
 interface TaskManagerInterface
 {
     public function save(TaskEntity $task): string;
+
+    public function remove(string $id): string;
 }

@@ -13,5 +13,7 @@
             "Anguis\\TaskList\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+      "ext-json": "*"
+    }
 }
