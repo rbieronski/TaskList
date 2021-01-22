@@ -3,18 +3,20 @@
 namespace Anguis\TaskList\Command;
 
 use Anguis\TaskList\Repository\TaskRepositoryInterface;
+use Anguis\TaskList\Manager\TaskManagerInterface;
+
 
 class CommandFactory implements CommandFactoryInterface
 {
     protected TaskRepositoryInterface $taskRepository;
-//    protected TaskManagerInterface $taskManager;
+    protected TaskManagerInterface $taskManager;
 
     function __construct(
-        TaskRepositoryInterface $taskRepository
-//   ,    TaskManagerInterface $taskManager
+        TaskRepositoryInterface $taskRepository,
+        TaskManagerInterface $taskManager
     ) {
         $this->taskRepository = $taskRepository;
-//        $this->taskManager = $taskManager;
+        $this->taskManager = $taskManager;
     }
 
     public function create($name): CommandInterface
@@ -26,6 +28,10 @@ class CommandFactory implements CommandFactoryInterface
                 return new DetailsCommand($this->taskRepository);
             case 'count':
                 return new CountCommand($this->taskRepository);
+            case 'add':
+                return new AddCommand($this->taskManager);
+            case 'rm':
+                return new RemoveCommand($this->taskManager);
         }
     }
 }

@@ -2,24 +2,39 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Anguis\TaskList\Command\CommandFactory;
 use Anguis\TaskList\Reader\{
     JsonTaskReader
 };
+use Anguis\TaskList\IndexProvider\NumberIndexProvider;
 use Anguis\TaskList\Repository\ArrayTaskRepository;
+use Anguis\TaskList\Manager\JsonTaskManager;
 
-//
-//$jsonFile = 'tlp.php';
-//
-$reader = new JsonTaskReader(
-    'tasks.json'
-);
 
+// files
+$dataFile = 'data.json';
+$indexFile = 'last-index.idx';
+
+$indexProvider = new NumberIndexProvider($indexFile);
 $repository = new ArrayTaskRepository(
-    $reader
+    new JsonTaskReader($dataFile)
+);
+$manager = new JsonTaskManager(
+    $dataFile,
+    $indexProvider
 );
 
-$command = new \Anguis\TaskList\Command\ListCommand(
-    $repository
+$commandFactory = new CommandFactory(
+    $repository,
+    $manager
 );
 
-    $command->run(array(1,2));
+$dummyArray = array(1,2);
+
+$command = $commandFactory->create($argv[1]);
+$command->run(array_slice($argv, 2));
+
+//echo $reader;
+//echo $id->getNext();
+
+

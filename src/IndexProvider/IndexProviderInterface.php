@@ -1,6 +1,6 @@
 <?php
 
-namespace Anguis\IndexProvider\IndexProvider;
+namespace Anguis\TaskList\IndexProvider;
 
 interface IndexProviderInterface {
 

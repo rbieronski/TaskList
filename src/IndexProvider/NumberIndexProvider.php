@@ -5,7 +5,6 @@ namespace Anguis\TaskList\IndexProvider;
 class NumberIndexProvider implements IndexProviderInterface
 {
     protected string $filename;
-    protected string $nextKey;
 
     public function __construct($filename) {
         $this->filename = $filename;
@@ -17,7 +16,7 @@ class NumberIndexProvider implements IndexProviderInterface
     }
 
     public function saveNext(): string {
-        file_put_contents($this->filename, $this->nextKey);
-        return $this->nextKey;
+        file_put_contents($this->filename, $this->getNext());
+        return $this->getNext();
     }
 }
