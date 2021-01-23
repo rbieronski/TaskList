@@ -21,25 +21,28 @@ class JsonTaskManager implements TaskManagerInterface
 
     public function save(TaskEntity $task): string
     {
-        $this->taskEntity = $task;
+        $this->task = $task;
         $timestamp = $this->prepareTimestamp();
 
-        // read the json database
-        $data = json_decode(
+        // read the json database to array
+        $dataArray = json_decode(
             file_get_contents($this->filename), true
         );
 
-        // determine if save new entity or update existing
+        // determine if save new entity
+        // or update existing in array
         $id = $this->task->getId();
         if (!is_null($id)) {
-            // existing TaskEntity
-            $entity = [
-                'id' => $id,
-                'title' => $task->getTitle(),
-                'createdAt' => $task->getCreatedAt(),
-                'updatedAt' => $timestamp
-            ];
+            $this->updateExistingTaskInDataArray(
+                $dataArray,
+                $id
+            );
         } else {
+            $this->addNewTaskToDataArray(
+                $dataArray,
+                $this->indexProvider->getNext()
+            );
+        }
             // new TaskEntity
             $entity = [
                 'id' => $id,
@@ -49,7 +52,7 @@ class JsonTaskManager implements TaskManagerInterface
             ];
         }
 
-        $data[] = $newRow;
+        // encode and save to file
         file_put_contents(
             $this->filename,
             json_encode($data)
@@ -58,15 +61,26 @@ class JsonTaskManager implements TaskManagerInterface
         return $id;
     }
 
-    protected function
+    protected function addNewTaskToDataArray(): array
+    {
+
+    }
+
+    protected function updateExistingTaskInDataArray(
+        array $data,
+        string $id
+    ): array {
+        $entity = [
+            'id' => $id,
+            'title' => $task->getTitle(),
+            'createdAt' => $task->getCreatedAt(),
+            'updatedAt' => $timestamp
+        ];
+    }
+
     protected function prepareTimestamp(): string
     {
         return date('Y-m-d H:i:s');
-    }
-
-    protected function updateExistingEntity
-    {
-
     }
 
     public function remove(string $id): string

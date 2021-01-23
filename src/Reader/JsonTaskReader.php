@@ -17,7 +17,8 @@ class JsonTaskReader implements TaskReaderInterface
     {
         $separator = ' | ';
         $str = '';
-        foreach ($this->findAll() as $item) {
+        $arr = $this->findAll();
+        foreach ($arr as $key=>$item) {
             $str .= $item['id'] . $separator;
             $str .= $item['title'] . $separator;
             $str .= $item['createdAt'] . $separator;

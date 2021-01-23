@@ -19,6 +19,9 @@ $indexProvider = new NumberIndexProvider($indexFile);
 $repository = new ArrayTaskRepository(
     new JsonTaskReader($dataFile)
 );
+
+
+
 $manager = new JsonTaskManager(
     $dataFile,
     $indexProvider
@@ -33,8 +36,3 @@ $dummyArray = array(1,2);
 
 $command = $commandFactory->create($argv[1]);
 $command->run(array_slice($argv, 2));
-
-//echo $reader;
-//echo $id->getNext();
-
-
