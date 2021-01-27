@@ -43,7 +43,7 @@ class JsonTaskManager implements TaskManagerInterface
                 $this->indexProvider->getNext()
             );
         }
-            // new TaskEntity
+            // build new TaskEntity
             $entity = [
                 'id' => $id,
                 'title' => $task->getTitle(),
