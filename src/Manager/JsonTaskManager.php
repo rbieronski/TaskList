@@ -35,7 +35,10 @@ class JsonTaskManager implements TaskManagerInterface
         // determine if make new TaskEntity or update existing one
         $id = $this->task->getId();
         if (is_null($id)) {
-            $newArr = $this->addNewTaskToDataArray($dataArray);
+            $id = $this->indexProvider->getNext();
+            $newArr = $this->addNewTaskToDataArray(
+                $id,
+                $dataArray);
         } else {
             $newArr = $this->updateExistingTaskInDataArray(
                 $id,
@@ -50,14 +53,17 @@ class JsonTaskManager implements TaskManagerInterface
         );
         $this->indexProvider->saveNext();
 
-        return $task->getId();
+        return $id;
     }
 
-    protected function addNewTaskToDataArray(array $arr): array
+    protected function addNewTaskToDataArray(
+        string $id,
+        array $arr
+    ): array
     {
         $timestamp = $this->prepareTimestamp();
         $arr[] = [
-            'id' => $this->indexProvider->getNext(),
+            'id' => $id,
             'title' => $this->task->getTitle(),
             'createdAt' => $timestamp,
             'updatedAt' => $timestamp

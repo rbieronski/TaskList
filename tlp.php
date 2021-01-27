@@ -36,3 +36,4 @@ $dummyArray = array(1,2);
 
 $command = $commandFactory->create($argv[1]);
 $command->run(array_slice($argv, 2));
+//var_dump(array_slice($argv, 2));

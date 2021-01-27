@@ -15,6 +15,7 @@ class DetailsCommand implements CommandInterface
     public function run(array $arguments)
     {
         foreach ($this->taskRepository->findAll() as $task) {
+            echo $task->getId() . ' ';
             echo $task->getTitle() . ' ';
             echo $task->getCreatedAt() . PHP_EOL;
         }

@@ -32,6 +32,8 @@ class CommandFactory implements CommandFactoryInterface
                 return new AddCommand($this->taskManager);
             case 'rm':
                 return new RemoveCommand($this->taskManager);
+            case 'update':
+                return new UpdateCommand($this->taskManager);
         }
     }
 }

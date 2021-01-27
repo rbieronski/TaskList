@@ -6,7 +6,7 @@ use Anguis\TaskList\Repository\TaskRepositoryInterface;
 use Anguis\TaskList\Manager\TaskManagerInterface;
 use Anguis\TaskList\Entity\TaskEntity;
 
-class AddCommand implements CommandInterface
+class UpdateCommand implements CommandInterface
 {
     protected TaskManagerInterface $taskManager;
 
@@ -18,10 +18,13 @@ class AddCommand implements CommandInterface
 
     public function run(array $arguments)
     {
+        echo ' ----------------------';
+        var_dump($arguments);
+        echo ' -----------------------';
         $now = date('Y-m-d h:m:s');
         $newTask = new TaskEntity(
-            null,
-            $arguments[0],
+            $arguments[1],
+            $arguments[1],
             $now,
             $now
         );

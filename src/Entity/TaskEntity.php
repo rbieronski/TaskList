@@ -4,16 +4,16 @@ namespace Anguis\TaskList\Entity;
 
 class TaskEntity
 {
-    protected string $id;
+    protected ?string $id;
     protected string $title;
     protected string $createdAt;
     protected string $updatedAt;
 
     function __construct(
-        $id,
-        $title,
-        $createdAt,
-        $updatedAt
+        ?string $id,
+        string $title,
+        string $createdAt,
+        string $updatedAt
     ) {
         $this->id = $id;
         $this->title = $title;
@@ -24,7 +24,7 @@ class TaskEntity
     /**
      * @return string
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
