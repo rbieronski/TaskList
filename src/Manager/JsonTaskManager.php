@@ -5,6 +5,10 @@ namespace Anguis\TaskList\Manager;
 use Anguis\TaskList\Entity\TaskEntity;
 use Anguis\TaskList\IndexProvider\IndexProviderInterface;
 
+/**
+ * Class JsonTaskManager
+ * @package Anguis\TaskList\Manager
+ */
 class JsonTaskManager implements TaskManagerInterface
 {
     protected string $filename;
@@ -22,60 +26,56 @@ class JsonTaskManager implements TaskManagerInterface
     public function save(TaskEntity $task): string
     {
         $this->task = $task;
-        $timestamp = $this->prepareTimestamp();
 
         // read the json database to array
         $dataArray = json_decode(
             file_get_contents($this->filename), true
         );
 
-        // determine if save new entity
-        // or update existing in array
+        // determine if make new TaskEntity or update existing one
         $id = $this->task->getId();
-        if (!is_null($id)) {
-            $this->updateExistingTaskInDataArray(
-                $dataArray,
-                $id
-            );
+        if (is_null($id)) {
+            $newArr = $this->addNewTaskToDataArray($dataArray);
         } else {
-            $this->addNewTaskToDataArray(
-                $dataArray,
-                $this->indexProvider->getNext()
+            $newArr = $this->updateExistingTaskInDataArray(
+                $id,
+                $dataArray
             );
-        }
-            // build new TaskEntity
-            $entity = [
-                'id' => $id,
-                'title' => $task->getTitle(),
-                'createdAt' => $timestamp,
-                'updatedAt' => $timestamp
-            ];
         }
 
-        // encode and save to file
+        // encode data array and save to file
         file_put_contents(
             $this->filename,
-            json_encode($data)
+            json_encode($newArr, JSON_PRETTY_PRINT)
         );
         $this->indexProvider->saveNext();
-        return $id;
+
+        return $task->getId();
     }
 
-    protected function addNewTaskToDataArray(): array
+    protected function addNewTaskToDataArray(array $arr): array
     {
-
+        $timestamp = $this->prepareTimestamp();
+        $arr[] = [
+            'id' => $this->indexProvider->getNext(),
+            'title' => $this->task->getTitle(),
+            'createdAt' => $timestamp,
+            'updatedAt' => $timestamp
+        ];
+        return $arr;
     }
 
     protected function updateExistingTaskInDataArray(
-        array $data,
-        string $id
-    ): array {
-        $entity = [
+        string $id,
+        array $arr
+    ): array {                  //  format looks awful, but...
+        $arr[$id] = [           //  ...it follows PSR-12 rules :D
             'id' => $id,
-            'title' => $task->getTitle(),
-            'createdAt' => $task->getCreatedAt(),
-            'updatedAt' => $timestamp
+            'title' => $this->task->getTitle(),
+            'createdAt' => $this->task->getCreatedAt(),
+            'updatedAt' => $this->prepareTimestamp()
         ];
+        return $arr;
     }
 
     protected function prepareTimestamp(): string
@@ -85,22 +85,20 @@ class JsonTaskManager implements TaskManagerInterface
 
     public function remove(string $id): string
     {
+        // read the json database to array
         $arrData = json_decode(
             file_get_contents($this->filename), true
         );
-        $iRow = 0;
-        foreach ($arrData as $row) {
-            if ($row['id'] === $id) {
-                break;
-            }
-            $iRow++;
-        }
-        unset($arrData[$iRow]);
-        $json = json_encode($arrData);
+
+        // delete row from associative array
+        unset($arrData[$id]);
+
+        // encode data array and save to file
         file_put_contents(
             $this->filename,
-            $json
+            json_encode($arrData, JSON_PRETTY_PRINT)
         );
+
         return $id;
     }
 }
