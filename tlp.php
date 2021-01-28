@@ -29,9 +29,10 @@ $commandFactory = new CommandFactory(
 );
 
 
-$argStdInput =getStandardInput();
+$argStdInput = getStandardInput();
 
 // ToDo move this block to function
+// function detectCommandAndArguments()
 If ($argStdInput <> '') {
     If (isset($argv[1])) {
         $commandName = 'update';
@@ -47,6 +48,9 @@ If ($argStdInput <> '') {
 
 $command = $commandFactory->create($commandName);
 $command->run($argumentsArray);
+
+
+// ---------- FUNCTIONS ---------------------------------
 
 /*
  * try read StandardInput
@@ -67,4 +71,3 @@ function getStandardInput(): string
     fclose($fh);
     return trim($stdin);
 }
-$stdInput = getStandardInput();
