@@ -4,6 +4,10 @@ namespace Anguis\TaskList\Command;
 
 use Anguis\TaskList\Repository\TaskRepositoryInterface;
 
+/**
+ * Class CountCommand
+ * @package Anguis\TaskList\Command
+ */
 class CountCommand implements CommandInterface
 {
     protected TaskRepositoryInterface $taskRepository;

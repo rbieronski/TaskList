@@ -3,15 +3,13 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Anguis\TaskList\Command\CommandFactory;
-use Anguis\TaskList\Reader\{
-    JsonTaskReader
-};
+use Anguis\TaskList\Reader\JsonTaskReader;
 use Anguis\TaskList\IndexProvider\NumberIndexProvider;
 use Anguis\TaskList\Repository\ArrayTaskRepository;
 use Anguis\TaskList\Manager\JsonTaskManager;
 
 
-// files
+// define data files
 $dataFile = 'data.json';
 $indexFile = 'last-index.idx';
 

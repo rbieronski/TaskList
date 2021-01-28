@@ -4,6 +4,10 @@ namespace Anguis\TaskList\Command;
 
 use Anguis\TaskList\Repository\TaskRepositoryInterface;
 
+/**
+ * Class ListCommand
+ * @package Anguis\TaskList\Command
+ */
 class ListCommand implements CommandInterface
 {
     protected TaskRepositoryInterface $taskRepository;

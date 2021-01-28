@@ -32,13 +32,15 @@ class JsonTaskManager implements TaskManagerInterface
             file_get_contents($this->filename), true
         );
 
-        // determine if make new TaskEntity or update existing one
+        // determine if make new TaskEntity if null id given
+        // or update existing one
         $id = $this->task->getId();
         if (is_null($id)) {
             $id = $this->indexProvider->getNext();
             $newArr = $this->addNewTaskToDataArray(
                 $id,
-                $dataArray);
+                $dataArray
+            );
         } else {
             $newArr = $this->updateExistingTaskInDataArray(
                 $id,

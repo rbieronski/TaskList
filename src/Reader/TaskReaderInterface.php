@@ -4,6 +4,7 @@ namespace Anguis\TaskList\Reader;
 
 /**
  * Interface TaskReaderInterface
+ * @package Anguis\TaskList\Reader
  */
 interface TaskReaderInterface
 {

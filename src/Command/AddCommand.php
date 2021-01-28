@@ -2,10 +2,13 @@
 
 namespace Anguis\TaskList\Command;
 
-use Anguis\TaskList\Repository\TaskRepositoryInterface;
 use Anguis\TaskList\Manager\TaskManagerInterface;
 use Anguis\TaskList\Entity\TaskEntity;
 
+/**
+ * Class AddCommand
+ * @package Anguis\TaskList\Command
+ */
 class AddCommand implements CommandInterface
 {
     protected TaskManagerInterface $taskManager;
@@ -18,12 +21,12 @@ class AddCommand implements CommandInterface
 
     public function run(array $arguments)
     {
-        $now = date('Y-m-d h:m:s');
+        $timestamp = date('Y-m-d h:m:s');
         $newTask = new TaskEntity(
             null,
             $arguments[0],
-            $now,
-            $now
+            $timestamp,
+            $timestamp
         );
         $this->taskManager->save($newTask);
     }

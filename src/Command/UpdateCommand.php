@@ -2,10 +2,13 @@
 
 namespace Anguis\TaskList\Command;
 
-use Anguis\TaskList\Repository\TaskRepositoryInterface;
 use Anguis\TaskList\Manager\TaskManagerInterface;
 use Anguis\TaskList\Entity\TaskEntity;
 
+/**
+ * Class UpdateCommand
+ * @package Anguis\TaskList\Command
+ */
 class UpdateCommand implements CommandInterface
 {
     protected TaskManagerInterface $taskManager;

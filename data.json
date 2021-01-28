@@ -22,17 +22,5 @@
         "title": "Wypi\u0107 drugie piwo",
         "createdAt": "2021-01-27 18:19:48",
         "updatedAt": "2021-01-27 18:19:48"
-    },
-    "13": {
-        "id": "13",
-        "title": "test 777",
-        "createdAt": "2021-01-28 09:01:08",
-        "updatedAt": "2021-01-28 09:28:08"
-    },
-    "14": {
-        "id": "14",
-        "title": "nastepny task",
-        "createdAt": "2021-01-28 09:25:00",
-        "updatedAt": "2021-01-28 09:25:00"
     }
 }

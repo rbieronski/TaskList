@@ -15,20 +15,6 @@ class ArrayTaskRepository implements TaskRepositoryInterface
         $this->taskReader = $taskReader;
     }
 
-    //    public function __toString(): string
-    //    {
-    //        $separator = ' | ';
-    //        $str = '';
-    //        foreach ($this->findAll() as $item) {
-    //            $str .= $item->getId . $separator;
-    //            $str .= $item->getTitle . $separator;
-    //            $str .= $item->getCreatedAt . $separator;
-    //            $str .= $item->getUpdatedAt . $separator;
-    //            $str .= PHP_EOL;
-    //        }
-    //        return $str;
-    //    }
-
     /**
      * @inheritDoc
      * @return array of TaskEntity

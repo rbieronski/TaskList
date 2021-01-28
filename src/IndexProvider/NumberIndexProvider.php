@@ -2,6 +2,10 @@
 
 namespace Anguis\TaskList\IndexProvider;
 
+/**
+ * Class NumberIndexProvider
+ * @package Anguis\TaskList\IndexProvider
+ */
 class NumberIndexProvider implements IndexProviderInterface
 {
     protected string $filename;

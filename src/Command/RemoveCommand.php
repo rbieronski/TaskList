@@ -4,6 +4,10 @@ namespace Anguis\TaskList\Command;
 
 use Anguis\TaskList\Manager\TaskManagerInterface;
 
+/**
+ * Class RemoveCommand
+ * @package Anguis\TaskList\Command
+ */
 class RemoveCommand implements CommandInterface
 {
     protected TaskManagerInterface $taskManager;

@@ -2,6 +2,10 @@
 
 namespace Anguis\TaskList\Entity;
 
+/**
+ * Class TaskEntity
+ * @package Anguis\TaskList\Entity
+ */
 class TaskEntity
 {
     protected ?string $id;

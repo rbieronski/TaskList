@@ -5,7 +5,10 @@ namespace Anguis\TaskList\Command;
 use Anguis\TaskList\Repository\TaskRepositoryInterface;
 use Anguis\TaskList\Manager\TaskManagerInterface;
 
-
+/**
+ * Class CommandFactory
+ * @package Anguis\TaskList\Command
+ */
 class CommandFactory implements CommandFactoryInterface
 {
     protected TaskRepositoryInterface $taskRepository;
