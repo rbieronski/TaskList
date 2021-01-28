@@ -58,11 +58,10 @@ class JsonTaskManager implements TaskManagerInterface
 
     protected function addNewTaskToDataArray(
         string $id,
-        array $arr
-    ): array
-    {
+        array $arr          //  I know that code formatting  looks awful
+    ): array {              //  ...but it follows PSR-12 rules :D
         $timestamp = $this->prepareTimestamp();
-        $arr[] = [
+        $arr[$id] = [
             'id' => $id,
             'title' => $this->task->getTitle(),
             'createdAt' => $timestamp,
@@ -74,8 +73,8 @@ class JsonTaskManager implements TaskManagerInterface
     protected function updateExistingTaskInDataArray(
         string $id,
         array $arr
-    ): array {                  //  format looks awful, but...
-        $arr[$id] = [           //  ...it follows PSR-12 rules :D
+    ): array {
+        $arr[$id] = [
             'id' => $id,
             'title' => $this->task->getTitle(),
             'createdAt' => $this->task->getCreatedAt(),

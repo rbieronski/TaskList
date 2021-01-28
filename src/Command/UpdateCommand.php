@@ -18,15 +18,12 @@ class UpdateCommand implements CommandInterface
 
     public function run(array $arguments)
     {
-        echo ' ----------------------';
-        var_dump($arguments);
-        echo ' -----------------------';
-        $now = date('Y-m-d h:m:s');
+        $timestamp = date('Y-m-d h:m:s');
         $newTask = new TaskEntity(
-            $arguments[1],
-            $arguments[1],
-            $now,
-            $now
+            $arguments[0],  // id to update
+            $arguments[1],  // task title
+            $timestamp,
+            $timestamp
         );
         $this->taskManager->save($newTask);
     }

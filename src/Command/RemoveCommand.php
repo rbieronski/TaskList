@@ -10,7 +10,6 @@ class RemoveCommand implements CommandInterface
 
     function __construct(
         TaskManagerInterface $taskManager
-
     ) {
         $this->taskManager = $taskManager;
     }
