@@ -21,7 +21,13 @@ class DetailsCommand implements CommandInterface
         foreach ($this->taskRepository->findAll() as $task) {
             echo $task->getId() . ' ';
             echo $task->getTitle() . ' ';
-            echo $task->getCreatedAt() . PHP_EOL;
+            echo $this->formatTimestamp($task->getCreatedAt()) . PHP_EOL;
         }
     }
+
+    private function formatTimestamp(string $timestamp)
+    {
+        return date('Y-m-d h:m', strtotime($timestamp));
+    }
 }
+
