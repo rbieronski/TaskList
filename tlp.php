@@ -33,13 +33,13 @@ $argStdInput = getStandardInput();
 
 // ToDo move this block to function
 // function detectCommandAndArguments()
-If ($argStdInput <> '') {
-    If (isset($argv[1])) {
-        $commandName = 'update';
-        $argumentsArray = array($argv[1], $argStdInput);
-    } else {
+if ($argStdInput <> '') {
+    If ($argv[1] === 'add') {
         $commandName = 'add';
         $argumentsArray = array($argStdInput);
+    } else {
+        $commandName = 'update';
+        $argumentsArray = array($argv[1], $argStdInput);
     }
 } else {
     $commandName = $argv[1];
