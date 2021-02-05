@@ -18,7 +18,9 @@ class ListCommand implements CommandInterface
 
     public function run(array $arguments)
     {
+        /* @var $task \Anguis\TaskList\Entity\TaskEntity */
         foreach ($this->taskRepository->findAll() as $task) {
+            echo $task->getId() . " ";
             echo $task->getTitle() . PHP_EOL;
         }
     }
