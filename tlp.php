@@ -7,11 +7,17 @@ use Anguis\TaskList\Reader\JsonTaskReader;
 use Anguis\TaskList\IndexProvider\NumberIndexProvider;
 use Anguis\TaskList\Repository\ArrayTaskRepository;
 use Anguis\TaskList\Manager\JsonTaskManager;
-
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Anguis\TaskList\Event\TaskAddedEvent;
+use Anguis\TaskList\Listener\TaskAddedListener;
 
 // define data files
 $dataFile = 'data.json';
 $indexFile = 'last-index.idx';
+
+$dispatcher = new EventDispatcher();
+
+$dispatcher->addListener(TaskAddedEvent::NAME, [new TaskAddedListener(), 'taskAdded']);
 
 $indexProvider = new NumberIndexProvider($indexFile);
 $repository = new ArrayTaskRepository(
@@ -25,7 +31,8 @@ $manager = new JsonTaskManager(
 
 $commandFactory = new CommandFactory(
     $repository,
-    $manager
+    $manager,
+    $dispatcher
 );
 
 
