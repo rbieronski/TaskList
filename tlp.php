@@ -31,22 +31,6 @@ $commandFactory = new CommandFactory(
 
 $argStdInput = getStandardInput();
 
-// ToDo move this block to function
-// function detectCommandAndArguments()
-
-//if ($argStdInput <> '') {
-//    If ($argv[1] === 'add') {
-//        $commandName = 'add';
-//        $argumentsArray = array($argStdInput);
-//    } else {
-//        $commandName = 'update';
-//        $argumentsArray = array($argv[1], $argStdInput);
-//    }
-//} else {
-//    $commandName = $argv[1];
-//    $argumentsArray = array_slice($argv, 2);
-//}
-
 $commandName = $argv[1];
 $argumentsArray = array_slice($argv, 2);
 
