@@ -3,67 +3,66 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Anguis\TaskList\Command\CommandFactory;
-use Anguis\TaskList\Reader\JsonTaskReader;
-use Anguis\TaskList\IndexProvider\NumberIndexProvider;
 use Anguis\TaskList\Repository\ArrayTaskRepository;
-use Anguis\TaskList\Manager\JsonTaskManager;
+use Anguis\TaskList\Manager\SqlDatabaseTaskManager;
+use Anguis\TaskList\Reader\SqlDatabaseTaskReader;
 
 
-// define data files
-$dataFile = 'data.json';
-$indexFile = 'last-index.idx';
+/**
+ *  Prepare db connection and PDO object
+ */
+$host = '127.0.0.1:3306';
+$db = 'rafal-cashflow';
+$user = 'rafal-flow';
+$pass = 'rafal';
+$charset = 'utf8mb4';
 
-$indexProvider = new NumberIndexProvider($indexFile);
-$repository = new ArrayTaskRepository(
-    new JsonTaskReader($dataFile)
-);
-
-$manager = new JsonTaskManager(
-    $dataFile,
-    $indexProvider
-);
-
-$commandFactory = new CommandFactory(
-    $repository,
-    $manager
-);
-
-
-$argStdInput = getStandardInput();
-
-// ToDo move this block to function
-// function detectCommandAndArguments()
-
-//if ($argStdInput <> '') {
-//    If ($argv[1] === 'add') {
-//        $commandName = 'add';
-//        $argumentsArray = array($argStdInput);
-//    } else {
-//        $commandName = 'update';
-//        $argumentsArray = array($argv[1], $argStdInput);
-//    }
-//} else {
-//    $commandName = $argv[1];
-//    $argumentsArray = array_slice($argv, 2);
-//}
-
-$commandName = $argv[1];
-$argumentsArray = array_slice($argv, 2);
-
-// add standard input to list of arguments if given
-if ($argStdInput <> '') {
-    $argumentsArray[] = $argStdInput;
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
+
+/**
+ * Read & prepare data and data manager
+ */
+$repository = new ArrayTaskRepository(
+    new SqlDatabaseTaskReader($pdo)
+);
+$manager = new SqlDatabaseTaskManager($pdo);
+
+
+/**
+ * Read all user parameters given to input
+ */
+$commandName = $argv[1];
+$commandArguments = array_slice($argv, 2);
+$standardInput = getStandardInput();
+if ($standardInput <> '') {
+    $argumentsArray[] = $standardInput;
+}
+
+
+/**
+ * Execute command
+ */
+$commandFactory = new CommandFactory(
+    taskRepository: $repository,
+    taskManager: $manager
+);
 $command = $commandFactory->create($commandName);
-$command->run($argumentsArray);
+$command->run($commandArguments);
 
 
-// ---------- FUNCTIONS ---------------------------------
-
-/*
- * try read StandardInput
- * @return: string
+/**
+ * Helper functions
  */
 function getStandardInput(): string
 {
