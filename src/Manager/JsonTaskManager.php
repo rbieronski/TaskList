@@ -13,7 +13,6 @@ class JsonTaskManager implements TaskManagerInterface
 {
     protected string $filename;
     protected IndexProviderInterface $indexProvider;
-    protected TaskEntity $task;
 
     function __construct(
         string $filename,
@@ -25,87 +24,46 @@ class JsonTaskManager implements TaskManagerInterface
 
     public function save(TaskEntity $task): string
     {
-        $this->task = $task;
+        $dataArray = $this->readDataFile();
 
-        // read the json database to array
-        $dataArray = json_decode(
-            file_get_contents($this->filename), true
-        );
+        $id = $task->getId() ?? $this->indexProvider->getNext();
 
-        // determine if make new TaskEntity if null id given
-        // or update existing one
-        $id = $this->task->getId();
-        if (is_null($id)) {
-            $id = $this->indexProvider->getNext();
-            $newArr = $this->addNewTaskToDataArray(
-                $id,
-                $dataArray
-            );
-        } else {
-            $newArr = $this->updateExistingTaskInDataArray(
-                $id,
-                $dataArray
-            );
-        }
+        $dataArray[$id] = [
+            'id' => $id,
+            'title' => $task->getTitle(),
+            'createdAt' => $task->getCreatedAt(),
+            'updatedAt' => $task->getUpdatedAt()
+        ];
 
         // encode data array and save to file
-        file_put_contents(
-            $this->filename,
-            json_encode($newArr, JSON_PRETTY_PRINT)
-        );
-        $this->indexProvider->saveNext();
+        $this->writeDataFile($dataArray);
 
         return $id;
     }
 
-    protected function addNewTaskToDataArray(
-        string $id,
-        array $arr          //  I know that code formatting  looks awful
-    ): array {              //  ...but it follows PSR-12 rules :D
-        $timestamp = $this->prepareTimestamp();
-        $arr[$id] = [
-            'id' => $id,
-            'title' => $this->task->getTitle(),
-            'createdAt' => $timestamp,
-            'updatedAt' => $timestamp
-        ];
-        return $arr;
-    }
-
-    protected function updateExistingTaskInDataArray(
-        string $id,
-        array $arr
-    ): array {
-        $arr[$id] = [
-            'id' => $id,
-            'title' => $this->task->getTitle(),
-            'createdAt' => $this->task->getCreatedAt(),
-            'updatedAt' => $this->prepareTimestamp()
-        ];
-        return $arr;
-    }
-
-    protected function prepareTimestamp(): string
-    {
-        return date('Y-m-d H:i:s');
-    }
-
     public function remove(string $id): string
     {
-        // read the json database to array
-        $arrData = json_decode(
-            file_get_contents($this->filename), true
-        );
-
+        $arrData = $this->readDataFile(); 
         // delete row from associative array
         unset($arrData[$id]);
 
+        $this->writeDataFile($arrData);
+
+        return $id;
+    }
+
+    private function readDataFile(): array {
+        // read the json database to array
+        return json_decode(
+            file_get_contents($this->filename), true
+        );
+    }
+
+    private function writeDataFile(array $arrData) {
         // encode data array and save to file
         file_put_contents(
             $this->filename,
             json_encode($arrData, JSON_PRETTY_PRINT)
         );
-
-        return $id;
     }
 }

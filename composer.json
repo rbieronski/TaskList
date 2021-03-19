@@ -15,7 +15,8 @@
     },
     "require": {
       "ext-json": "*",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "symfony/event-dispatcher": "^5.2"
     },
     "description": ""
 }
