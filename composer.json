@@ -16,7 +16,8 @@
     "require": {
       "ext-json": "*",
       "ext-pdo": "*",
-      "symfony/event-dispatcher": "^5.2"
+      "symfony/event-dispatcher": "^5.2",
+        "symfony/dotenv": "^5.2"
     },
     "description": ""
 }
