@@ -32,7 +32,6 @@ try {
     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-
 /**
  * Read & prepare data and data manager
  */
@@ -40,7 +39,6 @@ $repository = new ArrayTaskRepository(
     new SqlDatabaseTaskReader($pdo)
 );
 $manager = new SqlDatabaseTaskManager($pdo);
-
 
 /**
  * Read all user parameters given to input
@@ -52,7 +50,6 @@ if ($standardInput <> '') {
     $argumentsArray[] = $standardInput;
 }
 
-
 /**
  * Execute command
  */
@@ -62,7 +59,6 @@ $commandFactory = new CommandFactory(
 );
 $command = $commandFactory->create($commandName);
 $command->run($argumentsArray);
-
 
 /**
  * Helper functions
