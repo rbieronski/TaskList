@@ -3,3 +3,5 @@ test.php
 .idea/
 data.json
 last-index.idx
+.env
+.env.local

@@ -6,15 +6,18 @@ use Anguis\TaskList\Command\CommandFactory;
 use Anguis\TaskList\Repository\ArrayTaskRepository;
 use Anguis\TaskList\Manager\SqlDatabaseTaskManager;
 use Anguis\TaskList\Reader\SqlDatabaseTaskReader;
+use Symfony\Component\Dotenv\Dotenv;
 
+$env = new Dotenv();
+$env->load(__DIR__ . '/.env');
 
 /**
  *  Prepare db connection and PDO object
  */
-$host = '127.0.0.1:3306';
-$db = 'rafal-cashflow';
-$user = 'rafal-flow';
-$pass = 'rafal';
+$host = $_ENV['DB_HOST'];
+$db = $_ENV['DB_NAME'];
+$user = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASS'];
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -43,7 +46,7 @@ $manager = new SqlDatabaseTaskManager($pdo);
  * Read all user parameters given to input
  */
 $commandName = $argv[1];
-$commandArguments = array_slice($argv, 2);
+$argumentsArray = array_slice($argv, 2);
 $standardInput = getStandardInput();
 if ($standardInput <> '') {
     $argumentsArray[] = $standardInput;
@@ -58,7 +61,7 @@ $commandFactory = new CommandFactory(
     taskManager: $manager
 );
 $command = $commandFactory->create($commandName);
-$command->run($commandArguments);
+$command->run($argumentsArray);
 
 
 /**
