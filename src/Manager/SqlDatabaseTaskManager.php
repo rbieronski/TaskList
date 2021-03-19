@@ -1,18 +1,12 @@
 <?php
-
-
 namespace Anguis\TaskList\Manager;
-
 
 use Anguis\TaskList\Entity\TaskEntity;
 use PDO;
 
-
 class SqlDatabaseTaskManager implements TaskManagerInterface
 {
-
     protected PDO $pdo;
-
 
     public function __construct(PDO $pdo)
     {
